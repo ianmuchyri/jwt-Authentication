@@ -1,0 +1,31 @@
+version: "3.7"
+
+volumes:
+  redisDB:
+  postgresDB:
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: on-failure
+    ports:
+      - "6500:5432"
+    volumes:
+      - postgresDB:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+  pgAdmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    env_file:
+      - ./.env
+    ports:
+      - "5050:80"
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "7001:6379"
+    volumes:
+      - redisDB:/data
